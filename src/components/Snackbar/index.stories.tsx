@@ -1,7 +1,9 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React, { useState } from "react";
+import { SnackbarContextProvider } from "../../context/snackbarContext";
 
 import Snackbar from ".";
+import useSnackbar from "../../hooks/snackbar/useSnackbar";
 
 export default {
   title: "Snackbar",
@@ -9,13 +11,14 @@ export default {
 } as ComponentMeta<typeof Snackbar>;
 
 const Template: ComponentStory<typeof Snackbar> = (args) => {
-  const [isShow, setShow] = useState(false);
+  const snackbar = useSnackbar();
+  console.log("snackbar: ", snackbar);
+
   return (
     <>
-      <button onClick={() => setShow(!isShow)}>show snackbar</button>
-      <div style={{ position: "fixed", top: "50px", right: 0 }}>
-        {isShow && <Snackbar {...args} />}
-      </div>
+      <button onClick={() => snackbar.on({ message: "hello" })}>
+        show snackbar
+      </button>
     </>
   );
 };

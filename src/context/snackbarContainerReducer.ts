@@ -1,13 +1,11 @@
 import produce from 'immer'
 
-import { Props as SnackbarProps } from '../components/Snackbar'
-
 export const enum ActionType {
   ADD,
   REMOVE,
 }
 type ID = string
-export type Snackbar = SnackbarProps & { id: ID }
+export type Snackbar = any & { id: ID }
 export type State = Snackbar[]
 export type Action =
   | { type: ActionType.ADD; payload: { options: Snackbar } }

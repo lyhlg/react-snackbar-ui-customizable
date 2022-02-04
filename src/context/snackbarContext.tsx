@@ -1,4 +1,7 @@
-import React, { createContext, Dispatch, useReducer } from "react";
+import React, { createContext, Dispatch, useReducer, useState } from "react";
+import SnackbarPortal, {
+  ISnackbarPortal,
+} from "../components/SnackbarPortal/SnackbarPortal";
 
 import {
   Action,
@@ -7,11 +10,21 @@ import {
   snackbarContainerReducer,
 } from "./snackbarContainerReducer";
 
+type PortalID = string | number;
 interface State {
+  /** snackbar portal unique id */
+  id?: PortalID;
+  /** list including snackbar items */
   snackbars: Snackbar[];
+  /** dispatcher function to able on or off snackbar */
   dispatch: SnackbarDispatch;
 }
 interface Props {
+  /** portal id */
+  id: PortalID;
+  /** portal option */
+  option?: ISnackbarPortal["option"];
+  /** React Child Components */
   children: React.ReactNode;
 }
 
@@ -19,15 +32,21 @@ type SnackbarDispatch = Dispatch<Action>;
 
 export const SnackbarContext = createContext<State | null>(null);
 
-export const SnackbarContextProvider = (props: Props): JSX.Element => {
+export const SnackbarContextProvider = ({
+  id,
+  option,
+  children,
+}: Props): JSX.Element => {
   const [snackbars, dispatch] = useReducer(
     snackbarContainerReducer,
     initialState
   );
 
   return (
-    <SnackbarContext.Provider value={{ snackbars, dispatch }}>
-      {props.children}
+    <SnackbarContext.Provider value={{ id, snackbars, dispatch }}>
+      {children}
+
+      <SnackbarPortal snackbars={snackbars} option={option} />
     </SnackbarContext.Provider>
   );
 };

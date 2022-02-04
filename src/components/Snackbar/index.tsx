@@ -1,38 +1,104 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import React, { useEffect, useMemo, useState } from "react";
-
+import {
+  CheckCircleOutlined,
+  CloseOutlined,
+  ExclamationCircleOutlined,
+  InfoCircleOutlined,
+  WarningOutlined,
+} from "@ant-design/icons";
 import useInterval from "../../hooks/useInterval";
-// import theme from "@/styles/theme";
-import { ISnackbarProps, SnackbarType } from "./Snackbar.types";
+
+export type SnackbarType = "SUCCESS" | "ERROR" | "WARN" | "INFO";
+
+type ID = {
+  /**
+   * id
+   */
+  id: string;
+};
+
+export interface SnackbarProps {
+  /**
+   * snackbar message
+   */
+  message: string;
+  /**
+   * snackbar type ('SUCCESS' | 'ERROR' | 'WARN' | 'INFO')
+   */
+  type?: SnackbarType;
+  /**
+   * snack bar title
+   */
+  title?: string;
+  /**
+   * 0: infinity
+   * 1 ~ : for the given time, snackbar appears and disappears
+   * */
+  duration?: number;
+  /**
+   * event for close snackbar
+   */
+  onClose?: (id: string) => void;
+  /**
+   * action button text located on the bottom
+   */
+  buttonText?: string;
+  /**
+   * action function when clicking action button
+   * (caution) this property is always used with buttonText property
+   */
+  onClickButton?: () => void;
+  /**
+   * Success Icon
+   */
+  successIcon?: React.ReactNode | JSX.Element;
+  /**
+   * Success Icon
+   */
+  errorIcon?: React.ReactNode | JSX.Element;
+  /**
+   * Success Icon
+   */
+  warnIcon?: React.ReactNode | JSX.Element;
+  /**
+   * Success Icon
+   */
+  infoIcon?: React.ReactNode | JSX.Element;
+  /**
+   * Close Icon
+   */
+  closeIcon?: React.ReactNode | JSX.Element;
+}
 
 const StyleMapper = {
   SUCCESS: {
-    color: "white",
-    backgroundColor: "green",
-    icon: <></>, //<Icon name={IconPack.CHECK_IN_CIRCLE} />,
-    closeIcon: <></>, // <Icon name={IconPack.DELETE_WHITE} />,
+    color: "#ffffff",
+    backgroundColor: "#37933c",
+    icon: <CheckCircleOutlined style={{ fontSize: "24px" }} />,
+    closeIcon: <CloseOutlined style={{ fontSize: "18px" }} />,
   },
   ERROR: {
-    color: "white",
-    backgroundColor: "red",
-    icon: <></>, // <Icon name={IconPack.EXCLAMATION_MARK_IN_CIRCLE_TRANSPARENT} />,
-    closeIcon: <></>, // <Icon name={IconPack.DELETE_WHITE} />,
+    color: "#ffffff",
+    backgroundColor: "#c92323",
+    icon: <ExclamationCircleOutlined style={{ fontSize: "24px" }} />,
+    closeIcon: <CloseOutlined style={{ fontSize: "18px" }} />,
   },
   WARN: {
-    color: "gray",
-    backgroundColor: "yellow",
-    icon: <></>, // <Icon name={IconPack.INFO_IN_CIRCLE_BLACK} />,
-    closeIcon: <></>, // <Icon name={IconPack.DELETE_GRAY} />,
+    color: "#ffffff",
+    backgroundColor: "#e78012",
+    icon: <WarningOutlined style={{ fontSize: "24px" }} />,
+    closeIcon: <CloseOutlined style={{ fontSize: "18px" }} />,
   },
   INFO: {
-    color: "white",
-    backgroundColor: "gray",
-    icon: <></>, // <Icon name={IconPack.INFO_IN_CIRCLE_TRANSPARENT} />,
-    closeIcon: <></>, // <Icon name={IconPack.DELETE_WHITE} />,
+    color: "#ffffff",
+    backgroundColor: "#1495db",
+    icon: <InfoCircleOutlined style={{ fontSize: "24px" }} />,
+    closeIcon: <CloseOutlined style={{ fontSize: "18px" }} />,
   },
 };
 
-const Snackbar: React.FC<ISnackbarProps> = ({
+const Snackbar: React.FC<SnackbarProps & ID> = ({
   id,
   type = "SUCCESS",
   title,
@@ -40,7 +106,12 @@ const Snackbar: React.FC<ISnackbarProps> = ({
   onClose,
   onClickButton,
   buttonText,
-  duration = 2,
+  duration = 3,
+  successIcon,
+  errorIcon,
+  warnIcon,
+  infoIcon,
+  closeIcon,
 }): JSX.Element => {
   const isInfinite = !duration;
   const [remainSeconds, setRemainSeconds] = useState<number>(duration * 1000);
@@ -67,29 +138,59 @@ const Snackbar: React.FC<ISnackbarProps> = ({
     return (remainSeconds / (duration * 1000)) * 100;
   };
 
+  const customIconMapper = useMemo(
+    () => ({
+      SUCCESS: successIcon,
+      ERROR: errorIcon,
+      WARN: warnIcon,
+      INFO: infoIcon,
+    }),
+    [successIcon, errorIcon, warnIcon, infoIcon]
+  );
+
   useEffect(() => {
     setShow(true);
   }, [show]);
 
   return (
     <StyledContainer
+      className={`snackbar-container snackbar-container--${type}`}
       onMouseEnter={() => setPause(true)}
       onMouseLeave={() => setPause(false)}
     >
-      <StyledSnackbarBox isInfinite={isInfinite} type={type} show={show}>
+      <StyledSnackbarBox
+        className={`snackbar-box snackbar-box--${type}`}
+        isInfinite={isInfinite}
+        type={type}
+        show={show}
+      >
         <StyledProgressbar
+          className={`snackbar-progressbar snackbar-progressbar--${type}`}
           style={{ width: `${progressWidth()}%` }}
           show={show}
         />
-        <StyledIcon hasTitle={!!title}>{StyleMapper[type].icon}</StyledIcon>
+        <StyledIcon hasTitle={!!title}>
+          {customIconMapper ?? StyleMapper[type].icon}
+        </StyledIcon>
         <StyledClose onClick={onCloseSnackbar}>
-          {StyleMapper[type].closeIcon}
+          {closeIcon ?? StyleMapper[type].closeIcon}
         </StyledClose>
         <StyledContents>
-          {title && <StyledTitle>{title}</StyledTitle>}
-          <StyledDescription>{message}</StyledDescription>
+          {title && (
+            <StyledTitle className={`snackbar-title snackbar-title--${type}`}>
+              {title}
+            </StyledTitle>
+          )}
+          <StyledDescription
+            className={`snackbar-description snackbar-description--${type}`}
+          >
+            {message}
+          </StyledDescription>
         </StyledContents>
-        <StyledButton type={type}>
+        <StyledButton
+          type={type}
+          className={`snackbar-action snackbar-action--${type}`}
+        >
           {buttonText && <button onClick={onClickButton}>{buttonText}</button>}
         </StyledButton>
       </StyledSnackbarBox>
@@ -98,15 +199,15 @@ const Snackbar: React.FC<ISnackbarProps> = ({
 };
 
 const fadein = keyframes`
-  from { transform: translateY(20px); opacity: 0 }
-  to { transform: translateY(0); opacity: 1 }
+  from { transform: translateX(100%); opacity: 0 }
+  to { transform: translateX(0); opacity: 1 }
 `;
 const StyledContainer = styled.div`
   position: relative;
   right: 0;
-  top: 100px;
   margin-bottom: 20px;
   overflow: hidden;
+  border-radius: 8px;
 `;
 
 const StyledProgressbar = styled.span<{ show: boolean }>`
@@ -134,8 +235,6 @@ const StyledSnackbarBox = styled.div<{
   padding: ${({ isInfinite }) => (isInfinite ? "16px" : "20px")} 48px 16px 56px;
   background-color: ${({ type }) => StyleMapper[type].backgroundColor};
   color: ${({ type }) => StyleMapper[type].color};
-  box-shadow: 0px 4px 12px rgba(33, 37, 41, 0.15),
-    0px 0px 1px rgba(33, 37, 41, 0.3);
   border-radius: 8px;
 
   ${({ show }) =>
@@ -151,17 +250,14 @@ const StyledSnackbarBox = styled.div<{
 
 const StyledIcon = styled.span<{ hasTitle: boolean }>`
   position: absolute;
-  top: ${({ hasTitle }) => (hasTitle ? 20 : 18)}px;
-  /* top: 20px; */
+  top: 13px;
   left: 20px;
 `;
 
 const StyledClose = styled.span`
   position: absolute;
-  width: 24px;
-  height: 24px;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
 `;
 
@@ -174,14 +270,17 @@ const StyledDescription = styled.div`
   line-height: 20px;
   margin-bottom: 4px;
   font-size: 14px;
+  word-wrap: break-word;
 `;
 const StyledContents = styled.div``;
 
 const StyledButton = styled.div<{ type: SnackbarType }>`
   text-align: right;
   button {
+    cursor: pointer;
     margin-right: -30px;
-    padding: 12px 28px;
+    margin-bottom: -10px;
+    padding: 12px 18px;
     color: ${({ type }) => StyleMapper[type].color};
     border: 0;
     background: transparent;
