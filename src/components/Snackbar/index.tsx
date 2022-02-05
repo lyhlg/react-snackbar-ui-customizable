@@ -173,7 +173,7 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
           show={show}
         />
         <StyledIcon hasTitle={!!title}>
-          {customIconMapper ?? StyleMapper[type].icon}
+          {customIconMapper[type] ?? StyleMapper[type].icon}
         </StyledIcon>
         <StyledClose onClick={onCloseSnackbar}>
           {closeIcon ?? StyleMapper[type].closeIcon}
