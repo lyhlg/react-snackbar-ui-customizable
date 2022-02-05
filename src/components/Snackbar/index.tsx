@@ -169,12 +169,12 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
           style={{ width: `${progressWidth()}%` }}
           show={show}
         />
-        <StyledIcon hasTitle={!!title}>
+        {/* <StyledIcon hasTitle={!!title}>
           {customIconMapper[type] ?? StyleMapper[type].icon}
         </StyledIcon>
         <StyledClose onClick={onCloseSnackbar}>
           {closeIcon ?? StyleMapper[type].closeIcon}
-        </StyledClose>
+        </StyledClose> */}
         <StyledContents>
           {title && (
             <StyledTitle className={`snackbar-title snackbar-title--${type}`}>
