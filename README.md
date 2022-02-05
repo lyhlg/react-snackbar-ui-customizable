@@ -62,33 +62,51 @@ const Example = (): JSX.Element => {
 ## SnackbarContextProvider
 
 (* Required)
-| property name | Description |
-| ------------- | ------------------------------ |
-| `id` | portal id. (default: snackbar-portal) |
-| `option` | portal options |
-| `children*` | your application components |
+| property name | Description | Type |
+| ------------- | ------------------------------ | --------- |
+| `id` | portal id. (default: snackbar-portal) | string |
+| `option` | portal options | OptionType |
+| `children*` | your application components | JSX.Element |
 
-### option (all of the option property is optional)
+### option (all of the option property is optional) - OptionType
 
-| property name | Description                                                                                                |
-| ------------- | ---------------------------------------------------------------------------------------------------------- |
-| `position`    | will be displayed (top-left, top-center, **top-right(default)**, bottom-left, bottom-center, bottom-right) |
-| `zIndex`      | z index (default: 100)                                                                                     |
-| `duration`    | 0: infinity, 1 ~ : for the given time, snackbar appears and disappears (default: 3s)                       |
-| `successIcon` | Success Icon (default(CheckCircleOutlined of @ant-design/icon)), - React.ReactNode or JSX.Element          |
-| `errorIcon`   | Error Icon (default(WarningOutlined of @ant-design/icon)), - React.ReactNode or JSX.Element                |
-| `warnIcon`    | Warning Icon (default(ExclamationCircleOutlined of @ant-design/icon)), - React.ReactNode or JSX.Element    |
-| `infoIcon`    | Information Icon (default(InfoCircleOutlined of @ant-design/icon)), - React.ReactNode or JSX.Element       |
-| `closeIcon`   | Close Icon (default(CloseOutlined of @ant-design/icon)), - React.ReactNode or JSX.Element                  |
+| property name | Description                                                                                                | Type |
+| ------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
+| `position`    | will be displayed (top-left, top-center, **top-right(default)**, bottom-left, bottom-center, bottom-right) | string     |    
+| `zIndex`      | z index (default: 100)                                                                                     | number     |
+| `duration`    | 0: infinity, 1 ~ : for the given time, snackbar appears and disappears (default: 3s)                       | number(s)     |
+| `successIcon` | Success Icon (default: CheckCircleOutlined of @ant-design/icon)                                         | React.ReactNode or JSX.Element |
+| `errorIcon`   | Error Icon (default: WarningOutlined of @ant-design/icon)                                               | React.ReactNode or JSX.Element |
+| `warnIcon`    | Warning Icon (default: ExclamationCircleOutlined of @ant-design/icon)                                   | React.ReactNode or JSX.Element |
+| `infoIcon`    | Information Icon (default: InfoCircleOutlined of @ant-design/icon)                                      | React.ReactNode or JSX.Element |
+| `closeIcon`   | Close Icon (default: CloseOutlined of @ant-design/icon)                                                 | React.ReactNode or JSX.Element |
 
 ## useSnackbar
 
-| property name | Description                                            |
-| ------------- | ------------------------------------------------------ |
-| `on`          | execution method for stacking snackbars on list        |
-| `off`         | excution method for removing snackbars on list         |
-| `length`      | length of snackbar list                                |
-| `list`        | snack bar list currently being displayed on the screen |
+| property name | Description                                            | Type |
+| ------------- | ------------------------------------------------------ | ---- |
+| `on`          | execution method for stacking snackbars on list        | (option: SnackbarOption) => void |
+| `off`         | excution method for removing snackbars on list         | (id: number) => void |
+| `length`      | length of snackbar list                                | number |
+| `list`        | snack bar list currently being displayed on the screen | Array<Option> |
+
+### Snackbar Option (when you use on method of useSnackbar)
+| property name | Description                                                                                                | Type |
+| ------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
+| `title`    | snackbar title  | string     |    
+| `message*`    | snackbar message  | string     |    
+| `type`    | snackbar type  | 'SUCCESS' | 'ERROR' | 'WARN' | 'INFO'  |    
+| `onClose`    | event for close snackbar  | (id: string) => void |    
+| `buttonText`    | action button text located on the bottom right  | string     |    
+| `onClickButton`    | action function when clicking action button, (caution) this property is always used with buttonText property  | () => void     |    
+| `position`    | will be displayed (top-left, top-center, **top-right(default)**, bottom-left, bottom-center, bottom-right) | string     |    
+| `duration`    | 0: infinity, 1 ~ : for the given time, snackbar appears and disappears (default: 3s)                       | number(s)     |
+| `successIcon` | Success Icon (default: CheckCircleOutlined of @ant-design/icon)                                         | React.ReactNode or JSX.Element |
+| `errorIcon`   | Error Icon (default: WarningOutlined of @ant-design/icon)                                               | React.ReactNode or JSX.Element |
+| `warnIcon`    | Warning Icon (default: ExclamationCircleOutlined of @ant-design/icon)                                   | React.ReactNode or JSX.Element |
+| `infoIcon`    | Information Icon (default: InfoCircleOutlined of @ant-design/icon)                                      | React.ReactNode or JSX.Element |
+| `closeIcon`   | Close Icon (default: CloseOutlined of @ant-design/icon)                                                 | React.ReactNode or JSX.Element |
+
 
 <br />
 
