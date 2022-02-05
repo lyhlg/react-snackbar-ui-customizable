@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SnackbarProps } from "src/components/Snackbar";
+import { SnackbarProps } from "../../../components/Snackbar";
 import { v4 as uuidv4 } from "uuid";
 
 import { ActionType } from "../../../context/snackbarContainerReducer";

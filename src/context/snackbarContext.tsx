@@ -21,7 +21,7 @@ interface State {
 }
 interface Props {
   /** portal id */
-  id: PortalID;
+  id?: PortalID;
   /** portal option */
   option?: Omit<ISnackbarPortal, "snackbar">;
   /** React Child Components */
@@ -46,7 +46,7 @@ export const SnackbarContextProvider = ({
     <SnackbarContext.Provider value={{ id, snackbars, dispatch }}>
       {children}
 
-      <SnackbarPortal snackbars={snackbars} {...option} />
+      <SnackbarPortal snackbars={snackbars} {...option} id={id} />
     </SnackbarContext.Provider>
   );
 };

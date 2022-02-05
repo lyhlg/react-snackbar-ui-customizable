@@ -8,7 +8,7 @@
   "scripts": {
     "emit-tsc": "tsc --emitDeclarationOnly",
     "build": "npm run emit-tsc & rollup -c",
-    "test": "npm run test",
+    "test": "jest --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -29,34 +29,42 @@
   "homepage": "https://github.com/lyhlg/react-snackbar-ui-customizable#readme",
   "devDependencies": {
     "@babel/core": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-node-resolve": "^13.1.3",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.4.0",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "@types/styled-components": "^5.1.21",
     "@types/uuid": "^8.3.4",
     "babel": "^6.23.0",
+    "babel-jest": "^27.5.0",
     "babel-loader": "^8.2.3",
     "babel-plugin-styled-components": "^2.0.2",
     "babel-preset-react-app": "^10.0.1",
+    "jest": "^27.5.0",
     "rollup": "^2.67.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.31.2",
     "typescript": "^4.5.5"
   },
   "peerDependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@storybook/addon-actions": "^6.4.18",
     "@storybook/addon-essentials": "^6.4.18",
     "@storybook/addon-links": "^6.4.18",
     "@storybook/react": "^6.4.18",
+    "immer": "^9.0.12",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "@ant-design/icons": "^4.7.0",
-    "immer": "^9.0.12",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2"
-  },
-  "dependencies": {}
+  }
 }
