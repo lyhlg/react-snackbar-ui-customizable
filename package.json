@@ -1,6 +1,6 @@
 {
   "name": "react-snackbar-ui-customizable",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "snackbar component for react without style",
   "main": "build/index.js",
   "module": "build/index.esm.js",
