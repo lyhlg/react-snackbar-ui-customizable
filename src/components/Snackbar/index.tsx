@@ -164,11 +164,11 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
         type={type}
         show={show}
       >
-        <StyledProgressbar
+        {/* <StyledProgressbar
           className={`snackbar-progressbar snackbar-progressbar--${type}`}
           style={{ width: `${progressWidth()}%` }}
           show={show}
-        />
+        /> */}
         {/* <StyledIcon hasTitle={!!title}>
           {customIconMapper[type] ?? StyleMapper[type].icon}
         </StyledIcon>
