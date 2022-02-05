@@ -82,11 +82,10 @@ const SnackbarPortal = ({
       <GlobalStyle />
       {orderByCreatedAt.map((sb) => (
         <Snackbar
+          key={sb.id}
           {...snackbarOptions}
           {...sb}
-          key={sb.id}
           onClose={snackbar.off}
-          duration={0}
         />
       ))}
     </div>,

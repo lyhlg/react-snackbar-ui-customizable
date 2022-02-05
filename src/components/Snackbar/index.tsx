@@ -141,15 +141,12 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
     return (remainSeconds / (duration * 1000)) * 100;
   };
 
-  const customIconMapper = useMemo(
-    () => ({
-      SUCCESS: successIcon,
-      ERROR: errorIcon,
-      WARN: warnIcon,
-      INFO: infoIcon,
-    }),
-    [successIcon, errorIcon, warnIcon, infoIcon]
-  );
+  const customIconMapper = {
+    SUCCESS: successIcon,
+    ERROR: errorIcon,
+    WARN: warnIcon,
+    INFO: infoIcon,
+  };
 
   useEffect(() => {
     setShow(true);

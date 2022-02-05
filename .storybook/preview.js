@@ -12,6 +12,10 @@ export const parameters = {
   },
 };
 
+const ChildApp = ({ storyFn }) => {
+  return <>{storyFn()}</>;
+};
+
 const AppDecorator = (storyFn) => {
   return (
     <SnackbarContextProvider
@@ -19,7 +23,7 @@ const AppDecorator = (storyFn) => {
       option={{ position: "top-right" }}
     >
       <GlobalStyle />
-      {storyFn()}
+      <ChildApp storyFn={storyFn} />
     </SnackbarContextProvider>
   );
 };

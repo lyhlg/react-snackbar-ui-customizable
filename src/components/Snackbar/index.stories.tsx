@@ -1,6 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React, { useState } from "react";
-import { SnackbarContextProvider } from "../../context/snackbarContext";
+import React from "react";
 
 import Snackbar from ".";
 import useSnackbar from "../../hooks/snackbar/useSnackbar";
@@ -15,11 +14,11 @@ const Template: ComponentStory<typeof Snackbar> = (args) => {
   console.log("snackbar: ", snackbar);
 
   return (
-    <>
-      <button onClick={() => snackbar.on({ message: "hello" })}>
-        show snackbar
-      </button>
-    </>
+    <button
+      onClick={() => snackbar.on({ message: "hello", duration: 3, ...args })}
+    >
+      show snackbar
+    </button>
   );
 };
 
