@@ -18,7 +18,35 @@ type ID = {
   id: string;
 };
 
-export interface SnackbarProps {
+export interface SnackbarPublicProps {
+  /**
+   * 0: infinity
+   * 1 ~ : for the given time, snackbar appears and disappears
+   * */
+  duration?: number;
+  /**
+   * Success Icon
+   */
+  successIcon?: React.ReactNode | JSX.Element;
+  /**
+   * Error Icon
+   */
+  errorIcon?: React.ReactNode | JSX.Element;
+  /**
+   * Warning Icon
+   */
+  warnIcon?: React.ReactNode | JSX.Element;
+  /**
+   * Information Icon
+   */
+  infoIcon?: React.ReactNode | JSX.Element;
+  /**
+   * Close Icon
+   */
+  closeIcon?: React.ReactNode | JSX.Element;
+}
+
+export interface SnackbarProps extends SnackbarPublicProps {
   /**
    * snackbar message
    */
@@ -32,11 +60,6 @@ export interface SnackbarProps {
    */
   title?: string;
   /**
-   * 0: infinity
-   * 1 ~ : for the given time, snackbar appears and disappears
-   * */
-  duration?: number;
-  /**
    * event for close snackbar
    */
   onClose?: (id: string) => void;
@@ -49,26 +72,6 @@ export interface SnackbarProps {
    * (caution) this property is always used with buttonText property
    */
   onClickButton?: () => void;
-  /**
-   * Success Icon
-   */
-  successIcon?: React.ReactNode | JSX.Element;
-  /**
-   * Success Icon
-   */
-  errorIcon?: React.ReactNode | JSX.Element;
-  /**
-   * Success Icon
-   */
-  warnIcon?: React.ReactNode | JSX.Element;
-  /**
-   * Success Icon
-   */
-  infoIcon?: React.ReactNode | JSX.Element;
-  /**
-   * Close Icon
-   */
-  closeIcon?: React.ReactNode | JSX.Element;
 }
 
 const StyleMapper = {

@@ -12,7 +12,7 @@ const external = ["react", "react-dom", "styled-components"];
 process.env.BABEL_ENV = "production";
 
 export default {
-  input: "src/index.ts",
+  input: "./src/index.ts",
   output: [
     {
       file: pckg.main,

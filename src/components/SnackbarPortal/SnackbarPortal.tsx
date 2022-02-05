@@ -1,32 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Snackbar as ISnackbar } from "../../context/snackbarContainerReducer";
-import Snackbar from "../../components/Snackbar";
-import { SnackbarContext } from "../../context/snackbarContext";
+import Snackbar, { SnackbarPublicProps } from "../../components/Snackbar";
 import useSnackbar from "../../hooks/snackbar/useSnackbar";
-import "./SnackbarPortal.css";
+import GlobalStyle from "../../styles/globalStyle";
 
-export interface ISnackbarPortal {
-  option?: {
-    position?:
-      | "top-left"
-      | "top-center"
-      | "top-right"
-      | "bottom-left"
-      | "bottom-center"
-      | "bottom-right";
-    zIndex?: string | number;
-  };
+export interface ISnackbarPortal extends SnackbarPublicProps {
+  zIndex?: string | number;
   snackbars: ISnackbar[];
+  position?:
+    | "top-left"
+    | "top-center"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-center"
+    | "bottom-right";
 }
 
 const SnackbarPortal = ({
-  option,
+  zIndex,
+  position,
+  snackbars,
+  ...snackbarOptions
 }: ISnackbarPortal): React.ReactPortal | null => {
-  const snackbarContext = useContext(SnackbarContext);
   const snackbar = useSnackbar();
 
-  const _position = option?.position ? option.position : "top-right";
+  const _position = position ?? "top-right";
   const [loaded, setLoaded] = useState(false);
   const portalId = "snackbar-portal";
   const [verticalPosition, horizontalPosition] = _position.split("-");
@@ -41,7 +40,7 @@ const SnackbarPortal = ({
     div.style[verticalPosition as any] = "10px";
     div.style.overflowY = "scroll";
     div.style.overflowX = "hidden";
-    div.style.zIndex = option?.zIndex ? option.zIndex.toString() : "100";
+    div.style.zIndex = zIndex ? zIndex.toString() : "100";
 
     if ((verticalPosition as any) === "top") {
       div.style.top = "10px";
@@ -68,20 +67,25 @@ const SnackbarPortal = ({
     return () => {
       document.getElementsByTagName("body")[0].removeChild(div);
     };
-  }, [horizontalPosition, option?.zIndex, portalId, verticalPosition]);
+  }, [horizontalPosition, zIndex, portalId, verticalPosition]);
 
   if (!(loaded && snackbar && snackbar?.length > 0)) {
     return null;
   }
 
-  const orderByCreatedAt = snackbarContext
-    ? snackbarContext?.snackbars.slice().reverse()
-    : [];
+  const orderByCreatedAt = snackbars.slice().reverse();
 
   return ReactDOM.createPortal(
     <div>
+      <GlobalStyle />
       {orderByCreatedAt.map((sb) => (
-        <Snackbar {...sb} key={sb.id} onClose={snackbar.off} duration={0} />
+        <Snackbar
+          {...snackbarOptions}
+          {...sb}
+          key={sb.id}
+          onClose={snackbar.off}
+          duration={0}
+        />
       ))}
     </div>,
     document.getElementById(portalId) as HTMLElement

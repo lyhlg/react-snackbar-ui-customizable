@@ -1,5 +1,6 @@
 import { addDecorator } from "@storybook/react";
 import { SnackbarContextProvider } from "../src/context/snackbarContext";
+import GlobalStyle from "../src/styles/globalStyle";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -17,6 +18,7 @@ const AppDecorator = (storyFn) => {
       id="snackbar-portal"
       option={{ position: "top-right" }}
     >
+      <GlobalStyle />
       {storyFn()}
     </SnackbarContextProvider>
   );

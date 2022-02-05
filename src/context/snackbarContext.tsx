@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, useReducer, useState } from "react";
+import React, { createContext, Dispatch, useContext, useReducer } from "react";
 import SnackbarPortal, {
   ISnackbarPortal,
 } from "../components/SnackbarPortal/SnackbarPortal";
@@ -23,7 +23,7 @@ interface Props {
   /** portal id */
   id: PortalID;
   /** portal option */
-  option?: ISnackbarPortal["option"];
+  option?: Omit<ISnackbarPortal, "snackbar">;
   /** React Child Components */
   children: React.ReactNode;
 }
@@ -46,7 +46,7 @@ export const SnackbarContextProvider = ({
     <SnackbarContext.Provider value={{ id, snackbars, dispatch }}>
       {children}
 
-      <SnackbarPortal snackbars={snackbars} option={option} />
+      <SnackbarPortal snackbars={snackbars} {...option} />
     </SnackbarContext.Provider>
   );
 };

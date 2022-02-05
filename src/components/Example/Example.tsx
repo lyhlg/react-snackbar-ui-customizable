@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import useSnackbar from "../../hooks/snackbar/useSnackbar";
-import { SnackbarProps } from "../Snackbar";
 
 type Type = "SUCCESS" | "WARN" | "ERROR" | "INFO";
 
 const Example = () => {
-  const snackbar = useSnackbar<SnackbarProps>();
+  const snackbar = useSnackbar();
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [type, setType] = useState<Type>("SUCCESS");
