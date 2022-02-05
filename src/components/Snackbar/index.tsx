@@ -78,26 +78,18 @@ const StyleMapper = {
   SUCCESS: {
     color: "#ffffff",
     backgroundColor: "#37933c",
-    icon: <CheckCircleOutlined style={{ fontSize: "24px" }} />,
-    closeIcon: <CloseOutlined style={{ fontSize: "18px" }} />,
   },
   ERROR: {
     color: "#ffffff",
     backgroundColor: "#c92323",
-    icon: <ExclamationCircleOutlined style={{ fontSize: "24px" }} />,
-    closeIcon: <CloseOutlined style={{ fontSize: "18px" }} />,
   },
   WARN: {
     color: "#ffffff",
     backgroundColor: "#e78012",
-    icon: <WarningOutlined style={{ fontSize: "24px" }} />,
-    closeIcon: <CloseOutlined style={{ fontSize: "18px" }} />,
   },
   INFO: {
     color: "#ffffff",
     backgroundColor: "#1495db",
-    icon: <InfoCircleOutlined style={{ fontSize: "24px" }} />,
-    closeIcon: <CloseOutlined style={{ fontSize: "18px" }} />,
   },
 };
 
@@ -110,11 +102,11 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
   onClickButton,
   buttonText,
   duration = 3,
-  successIcon,
-  errorIcon,
-  warnIcon,
-  infoIcon,
-  closeIcon,
+  successIcon = <CheckCircleOutlined style={{ fontSize: "24px" }} />,
+  errorIcon = <ExclamationCircleOutlined style={{ fontSize: "24px" }} />,
+  warnIcon = <WarningOutlined style={{ fontSize: "24px" }} />,
+  infoIcon = <InfoCircleOutlined style={{ fontSize: "24px" }} />,
+  closeIcon = <CloseOutlined style={{ fontSize: "18px" }} />,
 }): JSX.Element => {
   const isInfinite = !duration;
   const [remainSeconds, setRemainSeconds] = useState<number>(duration * 1000);
@@ -170,11 +162,9 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
           show={show}
         />
         <StyledIcon hasTitle={!!title}>
-          {customIconMapper[type] ?? StyleMapper[type].icon}
+          {customIconMapper[type ?? "SUCCESS"]}
         </StyledIcon>
-        <StyledClose onClick={onCloseSnackbar}>
-          {closeIcon ?? StyleMapper[type].closeIcon}
-        </StyledClose>
+        <StyledClose onClick={onCloseSnackbar}>{closeIcon}</StyledClose>
         <StyledContents>
           {title && (
             <StyledTitle className={`snackbar-title snackbar-title--${type}`}>
