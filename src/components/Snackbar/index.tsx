@@ -152,7 +152,6 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
     >
       <StyledSnackbarBox
         className={`snackbar-box snackbar-box--${type}`}
-        isInfinite={isInfinite}
         type={type}
         show={show}
       >
@@ -161,9 +160,7 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
           style={{ width: `${progressWidth()}%` }}
           show={show}
         />
-        <StyledIcon hasTitle={!!title}>
-          {customIconMapper[type ?? "SUCCESS"]}
-        </StyledIcon>
+        <StyledIcon>{customIconMapper[type ?? "SUCCESS"]}</StyledIcon>
         <StyledClose onClick={onCloseSnackbar}>{closeIcon}</StyledClose>
         <StyledContents>
           {title && (
@@ -216,13 +213,12 @@ const StyledProgressbar = styled.span<{ show: boolean }>`
 const StyledSnackbarBox = styled.div<{
   type: SnackbarType;
   show: boolean;
-  isInfinite: boolean;
 }>`
   position: relative;
   overflow: hidden;
 
   width: 330px;
-  padding: ${({ isInfinite }) => (isInfinite ? "16px" : "20px")} 48px 16px 56px;
+  padding: 20px 48px 16px 56px;
   background-color: ${({ type }) => StyleMapper[type].backgroundColor};
   color: ${({ type }) => StyleMapper[type].color};
   border-radius: 8px;
@@ -238,10 +234,10 @@ const StyledSnackbarBox = styled.div<{
         `}
 `;
 
-const StyledIcon = styled.span<{ hasTitle: boolean }>`
+const StyledIcon = styled.span`
   position: absolute;
-  top: 13px;
   left: 20px;
+  top: 16px;
 `;
 
 const StyledClose = styled.span`

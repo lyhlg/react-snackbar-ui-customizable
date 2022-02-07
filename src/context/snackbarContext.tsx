@@ -1,16 +1,18 @@
 import React, { createContext, Dispatch, useContext, useReducer } from "react";
+import useSnackbar from "src/hooks/snackbar/useSnackbar";
 import SnackbarPortal, {
   ISnackbarPortal,
 } from "../components/SnackbarPortal/SnackbarPortal";
 
 import {
   Action,
+  ActionType,
   initialState,
   Snackbar,
   snackbarContainerReducer,
 } from "./snackbarContainerReducer";
 
-type PortalID = string | number;
+export type PortalID = string | number;
 interface State {
   /** snackbar portal unique id */
   id?: PortalID;
@@ -41,12 +43,17 @@ export const SnackbarContextProvider = ({
     snackbarContainerReducer,
     initialState
   );
+  const off = (id: string) =>
+    dispatch({
+      type: ActionType.REMOVE,
+      payload: { id },
+    });
 
   return (
     <SnackbarContext.Provider value={{ id, snackbars, dispatch }}>
       {children}
 
-      <SnackbarPortal snackbars={snackbars} {...option} id={id} />
+      <SnackbarPortal {...option} id={id} snackbars={snackbars} off={off} />
     </SnackbarContext.Provider>
   );
 };

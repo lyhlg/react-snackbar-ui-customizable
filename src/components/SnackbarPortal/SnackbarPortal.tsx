@@ -4,9 +4,11 @@ import { Snackbar as ISnackbar } from "../../context/snackbarContainerReducer";
 import Snackbar, { SnackbarPublicProps } from "../../components/Snackbar";
 import useSnackbar from "../../hooks/snackbar/useSnackbar";
 import GlobalStyle from "../../styles/globalStyle";
+import { PortalID } from "../../context/snackbarContext";
 
 export interface ISnackbarPortal extends SnackbarPublicProps {
-  id: string;
+  id?: PortalID;
+  off?: (id: string) => void;
   zIndex?: string | number;
   snackbars: ISnackbar[];
   position?:
@@ -20,16 +22,17 @@ export interface ISnackbarPortal extends SnackbarPublicProps {
 
 const SnackbarPortal = ({
   id,
+  off,
   zIndex,
   position,
   snackbars,
   ...snackbarOptions
 }: ISnackbarPortal): React.ReactPortal | null => {
-  const snackbar = useSnackbar();
+  // const snackbar = useSnackbar();
 
   const _position = position ?? "top-right";
   const [loaded, setLoaded] = useState(false);
-  const portalId = id ?? "snackbar-portal";
+  const portalId = id ? id.toString() : "snackbar-portal";
   const [verticalPosition, horizontalPosition] = _position.split("-");
 
   useEffect(() => {
@@ -71,7 +74,7 @@ const SnackbarPortal = ({
     };
   }, [horizontalPosition, zIndex, portalId, verticalPosition]);
 
-  if (!(loaded && snackbar && snackbar?.length > 0)) {
+  if (!(loaded && snackbars && snackbars?.length > 0)) {
     return null;
   }
 
@@ -81,12 +84,7 @@ const SnackbarPortal = ({
     <div>
       <GlobalStyle />
       {orderByCreatedAt.map((sb) => (
-        <Snackbar
-          key={sb.id}
-          {...snackbarOptions}
-          {...sb}
-          onClose={snackbar.off}
-        />
+        <Snackbar key={sb.id} {...snackbarOptions} {...sb} onClose={off} />
       ))}
     </div>,
     document.getElementById(portalId) as HTMLElement
