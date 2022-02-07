@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Snackbar as ISnackbar } from "../../context/snackbarContainerReducer";
 import Snackbar, { SnackbarPublicProps } from "../../components/Snackbar";
-import useSnackbar from "../../hooks/snackbar/useSnackbar";
 import GlobalStyle from "../../styles/globalStyle";
 import { PortalID } from "../../context/snackbarContext";
 
@@ -10,7 +9,7 @@ export interface ISnackbarPortal extends SnackbarPublicProps {
   id?: PortalID;
   off?: (id: string) => void;
   zIndex?: string | number;
-  snackbars: ISnackbar[];
+  snackbars?: ISnackbar[];
   position?:
     | "top-left"
     | "top-center"
@@ -25,11 +24,9 @@ const SnackbarPortal = ({
   off,
   zIndex,
   position,
-  snackbars,
+  snackbars = [],
   ...snackbarOptions
 }: ISnackbarPortal): React.ReactPortal | null => {
-  // const snackbar = useSnackbar();
-
   const _position = position ?? "top-right";
   const [loaded, setLoaded] = useState(false);
   const portalId = id ? id.toString() : "snackbar-portal";

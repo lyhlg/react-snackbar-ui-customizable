@@ -1,5 +1,4 @@
 import React, { createContext, Dispatch, useContext, useReducer } from "react";
-import useSnackbar from "src/hooks/snackbar/useSnackbar";
 import SnackbarPortal, {
   ISnackbarPortal,
 } from "../components/SnackbarPortal/SnackbarPortal";

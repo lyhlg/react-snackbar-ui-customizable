@@ -1,6 +1,6 @@
 # Example
 
-| without duration | with duration |
+| without timer progressbar | with timer progressbar |
 | ------------- | ------------------------------ |
 | ![image](./public/snackbars.png) | ![image2](./public/snackbars_with_progressbar.png) |
 
@@ -99,7 +99,6 @@ const Example = (): JSX.Element => {
 | `onClose`    | event for close snackbar  | (id: string) => void |    
 | `buttonText`    | action button text located on the bottom right  | string     |    
 | `onClickButton`    | action function when clicking action button, (caution) this property is always used with buttonText property  | () => void     |    
-| `position`    | will be displayed (top-left, top-center, **top-right(default)**, bottom-left, bottom-center, bottom-right) | string     |    
 | `duration`    | 0: infinity, 1 ~ : for the given time, snackbar appears and disappears (default: 3s)                       | number(s)     |
 | `successIcon` | Success Icon (default: CheckCircleOutlined of @ant-design/icon)                                         | React.ReactNode or JSX.Element |
 | `errorIcon`   | Error Icon (default: WarningOutlined of @ant-design/icon)                                               | React.ReactNode or JSX.Element |
