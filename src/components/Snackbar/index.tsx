@@ -101,7 +101,7 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
   onClose,
   onClickButton,
   buttonText,
-  duration = 3,
+  duration = 300,
   successIcon = <CheckCircleOutlined style={{ fontSize: "24px" }} />,
   errorIcon = <ExclamationCircleOutlined style={{ fontSize: "24px" }} />,
   warnIcon = <WarningOutlined style={{ fontSize: "24px" }} />,

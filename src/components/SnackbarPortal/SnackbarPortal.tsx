@@ -38,14 +38,16 @@ const SnackbarPortal = ({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    const wrapper = document.createElement("div");
+    wrapper.setAttribute("role", "log");
+    wrapper.style.zIndex = zIndex ? zIndex.toString() : "100";
+
     const div = document.createElement("div");
-    div.setAttribute("role", "log");
     div.id = portalId;
-    div.style.position = "fixed";
+    div.style.position = "absolute";
     div.style[verticalPosition as any] = "10px";
     div.style.overflowY = "scroll";
     div.style.overflowX = "hidden";
-    div.style.zIndex = zIndex ? zIndex.toString() : "100";
 
     if ((verticalPosition as any) === "top") {
       div.style.top = "10px";
@@ -65,12 +67,13 @@ const SnackbarPortal = ({
       div.style.right = "50%";
       div.style.transform = "translate(50%, 0)";
     }
-    document.getElementsByTagName("body")[0].prepend(div);
+    wrapper.appendChild(div);
+    document.getElementsByTagName("body")[0].prepend(wrapper);
 
     setLoaded(true);
 
     return () => {
-      document.getElementsByTagName("body")[0].removeChild(div);
+      document.getElementsByTagName("body")[0].removeChild(wrapper);
     };
   }, [horizontalPosition, zIndex, portalId, verticalPosition]);
 

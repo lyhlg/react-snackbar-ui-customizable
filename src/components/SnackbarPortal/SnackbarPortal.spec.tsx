@@ -7,7 +7,7 @@ import SnackbarPortal from "./SnackbarPortal";
 
 const id = "snackbar-portal";
 describe("SnackbarPortal container", () => {
-  test("랜더링을 하고 나면 document에 해당 element가 생성된다.", () => {
+  test("After rendering, div element is created on document.", () => {
     const id = "react-snackbar-portal-id";
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <SnackbarContextProvider id={id}>{children}</SnackbarContextProvider>
@@ -36,7 +36,7 @@ describe("SnackbarPortal container", () => {
       const fixture = "top-left";
       render(<SnackbarPortal id={id} snackbars={[]} position={fixture} />);
 
-      expect(screen.getByRole("log")).toHaveStyle(
+      expect(screen.getByRole("log").childNodes[0]).toHaveStyle(
         "top: 10px; bottom: 0; left: 10px"
       );
     });
@@ -44,7 +44,7 @@ describe("SnackbarPortal container", () => {
       const fixture = "top-center";
       render(<SnackbarPortal id={id} snackbars={[]} position={fixture} />);
 
-      expect(screen.getByRole("log")).toHaveStyle(
+      expect(screen.getByRole("log").childNodes[0]).toHaveStyle(
         "top: 10px; bottom: 0; right: 50%; transform: translate(50%, 0)"
       );
     });
@@ -52,7 +52,7 @@ describe("SnackbarPortal container", () => {
       const fixture = "top-right";
       render(<SnackbarPortal id={id} snackbars={[]} position={fixture} />);
 
-      expect(screen.getByRole("log")).toHaveStyle(
+      expect(screen.getByRole("log").childNodes[0]).toHaveStyle(
         "top: 10px; bottom: 0; right: 10px"
       );
     });
@@ -60,7 +60,7 @@ describe("SnackbarPortal container", () => {
       const fixture = "bottom-left";
       render(<SnackbarPortal id={id} snackbars={[]} position={fixture} />);
 
-      expect(screen.getByRole("log")).toHaveStyle(
+      expect(screen.getByRole("log").childNodes[0]).toHaveStyle(
         "top: 0; bottom: 10px; left: 10px"
       );
     });
@@ -68,7 +68,7 @@ describe("SnackbarPortal container", () => {
       const fixture = "bottom-center";
       render(<SnackbarPortal id={id} snackbars={[]} position={fixture} />);
 
-      expect(screen.getByRole("log")).toHaveStyle(
+      expect(screen.getByRole("log").childNodes[0]).toHaveStyle(
         "top: 0; bottom: 10px; right: 50%; transform: translate(50%, 0)"
       );
     });
@@ -76,7 +76,7 @@ describe("SnackbarPortal container", () => {
       const fixture = "bottom-right";
       render(<SnackbarPortal id={id} snackbars={[]} position={fixture} />);
 
-      expect(screen.getByRole("log")).toHaveStyle(
+      expect(screen.getByRole("log").childNodes[0]).toHaveStyle(
         "top: 0; bottom: 10px; right: 10px;"
       );
     });
