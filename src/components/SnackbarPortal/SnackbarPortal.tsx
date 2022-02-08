@@ -35,23 +35,21 @@ const SnackbarPortal = ({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const wrapper = document.createElement("div");
-    wrapper.setAttribute("role", "log");
-    wrapper.style.zIndex = zIndex ? zIndex.toString() : "100";
+    // const wrapper = document.createElement("div");
 
     const div = document.createElement("div");
+    div.setAttribute("role", "log");
+    div.style.zIndex = zIndex ? zIndex.toString() : "100";
     div.id = portalId;
-    div.style.position = "absolute";
+    div.style.position = "fixed";
     div.style[verticalPosition as any] = "10px";
-    div.style.overflowY = "scroll";
+    // div.style.overflowY = "scroll";
     div.style.overflowX = "hidden";
 
     if ((verticalPosition as any) === "top") {
       div.style.top = "10px";
-      div.style.bottom = "0";
     }
     if ((verticalPosition as any) === "bottom") {
-      div.style.top = "0";
       div.style.bottom = "10px";
       div.style.display = "flex";
       div.style.justifyContent = "flex-end";
@@ -67,13 +65,13 @@ const SnackbarPortal = ({
       div.style.right = "50%";
       div.style.transform = "translate(50%, 0)";
     }
-    wrapper.appendChild(div);
-    document.getElementsByTagName("body")[0].prepend(wrapper);
+    // wrapper.appendChild(div);
+    document.getElementsByTagName("body")[0].prepend(div);
 
     setLoaded(true);
 
     return () => {
-      document.getElementsByTagName("body")[0].removeChild(wrapper);
+      document.getElementsByTagName("body")[0].removeChild(div);
     };
   }, [horizontalPosition, zIndex, portalId, verticalPosition]);
 
