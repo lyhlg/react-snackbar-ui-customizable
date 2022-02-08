@@ -8,6 +8,7 @@ import {
   WarningOutlined,
 } from "@ant-design/icons";
 import useInterval from "../../hooks/useInterval";
+import { ISnackbarPortal } from "../SnackbarPortal/SnackbarPortal";
 
 export type SnackbarType = "SUCCESS" | "ERROR" | "WARN" | "INFO";
 
@@ -93,7 +94,9 @@ const StyleMapper = {
   },
 };
 
-const Snackbar: React.FC<SnackbarProps & ID> = ({
+const Snackbar: React.FC<
+  SnackbarProps & ID & { position: ISnackbarPortal["position"] }
+> = ({
   id,
   type = "SUCCESS",
   title,
@@ -102,6 +105,7 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
   onClickButton,
   buttonText,
   duration = 3,
+  position = "top-right",
   successIcon = <CheckCircleOutlined style={{ fontSize: "24px" }} />,
   errorIcon = <ExclamationCircleOutlined style={{ fontSize: "24px" }} />,
   warnIcon = <WarningOutlined style={{ fontSize: "24px" }} />,
@@ -112,6 +116,7 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
   const [remainSeconds, setRemainSeconds] = useState<number>(duration * 1000);
   const [show, setShow] = useState(false);
   const [pause, setPause] = useState<boolean>(false);
+  const [verticalDirection, horizontalDirection] = position?.split("-");
 
   const onCloseSnackbar = () => onClose?.(id);
 
@@ -144,6 +149,7 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
     setShow(true);
   }, [show]);
 
+  console.log("position", horizontalDirection);
   return (
     <StyledContainer
       className={`snackbar-container snackbar-container--${type}`}
@@ -152,6 +158,8 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
     >
       <StyledSnackbarBox
         className={`snackbar-box snackbar-box--${type}`}
+        verticalDirection={verticalDirection as "top" | "bottom"}
+        horizontalDirection={horizontalDirection as "left" | "center" | "right"}
         type={type}
         show={show}
       >
@@ -185,10 +193,26 @@ const Snackbar: React.FC<SnackbarProps & ID> = ({
   );
 };
 
-const fadein = keyframes`
+const fadeinRightToLeft = keyframes`
   from { transform: translateX(100%); opacity: 0 }
   to { transform: translateX(0); opacity: 1 }
 `;
+
+const fadeinLeftToRight = keyframes`
+  from { transform: translateX(-100%); opacity: 0 }
+  to { transform: translateX(0); opacity: 1 }
+`;
+
+const fadeinTopToBottom = keyframes`
+  from { transform: translateY(-100%); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+`;
+
+const fadeinBottomToTop = keyframes`
+  from { transform: translateY(100%); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+`;
+
 const StyledContainer = styled.div`
   position: relative;
   right: 0;
@@ -213,6 +237,8 @@ const StyledProgressbar = styled.span<{ show: boolean }>`
 const StyledSnackbarBox = styled.div<{
   type: SnackbarType;
   show: boolean;
+  verticalDirection: "top" | "bottom";
+  horizontalDirection: "right" | "center" | "left";
 }>`
   position: relative;
   overflow: hidden;
@@ -223,15 +249,18 @@ const StyledSnackbarBox = styled.div<{
   color: ${({ type }) => StyleMapper[type].color};
   border-radius: 8px;
 
-  ${({ show }) =>
-    show
-      ? css`
-          visibility: visible;
-          animation: ${fadein} 0.5s;
-        `
-      : css`
-          visibility: hidden;
-        `}
+
+  ${({ show, verticalDirection, horizontalDirection }) => {
+    if (show) {
+      return css`
+        visibility: visible;
+        animation: ${getAnimation(verticalDirection, horizontalDirection)} 0.3s;
+      `;
+    }
+    return css`
+      visibility: hidden;
+    `;
+  }}}
 `;
 
 const StyledIcon = styled.span`
@@ -276,3 +305,15 @@ const StyledButton = styled.div<{ type: SnackbarType }>`
 `;
 
 export default Snackbar;
+
+const getAnimation = (
+  verticalDirecation: "top" | "bottom",
+  horizontalDirection: "right" | "center" | "left"
+) => {
+  if (horizontalDirection === "center") {
+    return verticalDirecation === "top" ? fadeinTopToBottom : fadeinBottomToTop;
+  }
+  return horizontalDirection === "right"
+    ? fadeinRightToLeft
+    : fadeinLeftToRight;
+};

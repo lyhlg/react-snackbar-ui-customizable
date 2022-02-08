@@ -18,13 +18,10 @@ const ChildApp = ({ storyFn }) => {
 
 const AppDecorator = (storyFn) => {
   return (
-    <SnackbarContextProvider
-      id="snackbar-portal"
-      option={{ position: "top-right" }}
-    >
+    <>
       <GlobalStyle />
       <ChildApp storyFn={storyFn} />
-    </SnackbarContextProvider>
+    </>
   );
 };
 

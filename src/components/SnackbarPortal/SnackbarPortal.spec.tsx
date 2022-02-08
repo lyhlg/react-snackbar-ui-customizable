@@ -5,7 +5,6 @@ import { SnackbarContextProvider } from "../../context/snackbarContext";
 
 import SnackbarPortal from "./SnackbarPortal";
 
-const id = "snackbar-portal";
 describe("SnackbarPortal container", () => {
   test("After rendering, div element is created on document.", () => {
     const id = "react-snackbar-portal-id";

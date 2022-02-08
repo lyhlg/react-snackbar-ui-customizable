@@ -2,6 +2,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";
 
 import Snackbar from ".";
+import { SnackbarContextProvider } from "../../context/snackbarContext";
 import useSnackbar from "../../hooks/snackbar/useSnackbar";
 
 export default {
@@ -9,50 +10,56 @@ export default {
   component: Snackbar,
 } as ComponentMeta<typeof Snackbar>;
 
-const Template: ComponentStory<typeof Snackbar> = (args) => {
+const ChildTemplate = (args) => {
   const snackbar = useSnackbar();
-  console.log("snackbar: ", snackbar);
-
   return (
-    <button
-      onClick={() => snackbar.on({ message: "hello", duration: 3, ...args })}
-    >
-      show snackbar
-    </button>
+    <button onClick={() => snackbar.on({ ...args })}>show snackbar</button>
   );
 };
 
-export const Success = Template.bind({});
-Success.args = {
+const Template: ComponentStory<typeof Snackbar> = (args) => {
+  return (
+    <SnackbarContextProvider
+      id="snackbar-portal"
+      option={{ position: "bottom-center" }}
+    >
+      <ChildTemplate {...args} />
+    </SnackbarContextProvider>
+  );
+};
+
+export const WithProgressbar = Template.bind({});
+WithProgressbar.args = {
   type: "SUCCESS",
-  title: "제목을 입력해 주세요. 2줄 이내로 작성하는 것을 권장합니다.",
+  title: "What is Lorem Ipsum?",
   message:
-    "내용을 입력해 주세요. 4줄 이내로 작성하는 것을 권장합니다. width는 330px 고정이며, height은 가변입니다.",
-  buttonText: "버튼",
+    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  buttonText: "Action Button",
+  duration: 5,
 };
 export const Warning = Template.bind({});
 Warning.args = {
   type: "WARN",
-  title: "제목을 입력해 주세요. 2줄 이내로 작성하는 것을 권장합니다.",
+  title: "What is Lorem Ipsum?",
   message:
-    "내용을 입력해 주세요. 4줄 이내로 작성하는 것을 권장합니다. width는 330px 고정이며, height은 가변입니다.",
-  buttonText: "버튼",
+    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  buttonText: "Action Button",
 };
 
 export const Error = Template.bind({});
 Error.args = {
   type: "ERROR",
-  title: "제목을 입력해 주세요. 2줄 이내로 작성하는 것을 권장합니다.",
+  title: "What is Lorem Ipsum?",
   message:
-    "내용을 입력해 주세요. 4줄 이내로 작성하는 것을 권장합니다. width는 330px 고정이며, height은 가변입니다.",
-  buttonText: "버튼",
+    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  buttonText: "Action Button",
 };
 
 export const Info = Template.bind({});
 Info.args = {
   type: "INFO",
-  title: "제목을 입력해 주세요. 2줄 이내로 작성하는 것을 권장합니다.",
+  title: "What is Lorem Ipsum?",
   message:
-    "내용을 입력해 주세요. 4줄 이내로 작성하는 것을 권장합니다. width는 330px 고정이며, height은 가변입니다.",
-  buttonText: "버튼",
+    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+  buttonText: "Action Button",
 };

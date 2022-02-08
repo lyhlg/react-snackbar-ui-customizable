@@ -25,7 +25,7 @@ const SnackbarPortal = ({
   zIndex,
   position,
   snackbars = [],
-  ...snackbarOptions
+  ...snackbarGlobalOptions
 }: ISnackbarPortal): React.ReactPortal | null => {
   const _position = position ?? "top-right";
   const [loaded, setLoaded] = useState(false);
@@ -53,6 +53,9 @@ const SnackbarPortal = ({
     if ((verticalPosition as any) === "bottom") {
       div.style.top = "0";
       div.style.bottom = "10px";
+      div.style.display = "flex";
+      div.style.justifyContent = "flex-end";
+      div.style.flexDirection = "column";
     }
     if (horizontalPosition === "right") {
       div.style.right = "10px";
@@ -83,8 +86,14 @@ const SnackbarPortal = ({
   return ReactDOM.createPortal(
     <div>
       <GlobalStyle />
-      {orderByCreatedAt.map((sb) => (
-        <Snackbar key={sb.id} {...snackbarOptions} {...sb} onClose={off} />
+      {orderByCreatedAt.map((snackbarLocalOption) => (
+        <Snackbar
+          position={_position}
+          key={snackbarLocalOption.id}
+          onClose={off}
+          {...snackbarGlobalOptions}
+          {...snackbarLocalOption}
+        />
       ))}
     </div>,
     document.getElementById(portalId) as HTMLElement

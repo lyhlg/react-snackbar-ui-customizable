@@ -17,7 +17,7 @@ const useSnackbar = (): ReturnSnackbar | null => {
   if (!context) return null
 
   return {
-    on: (options: Omit<SnackbarProps, 'id'>) => {
+    on: (options: Omit<SnackbarProps, 'id' | 'position'>) => {
       context.dispatch({
         type: ActionType.ADD,
         payload: { options: { ...options, id: uuidv4() } },

@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, useContext, useReducer } from "react";
+import React, { createContext, Dispatch, useReducer } from "react";
 import SnackbarPortal, {
   ISnackbarPortal,
 } from "../components/SnackbarPortal/SnackbarPortal";
@@ -42,6 +42,7 @@ export const SnackbarContextProvider = ({
     snackbarContainerReducer,
     initialState
   );
+
   const off = (id: string) =>
     dispatch({
       type: ActionType.REMOVE,
